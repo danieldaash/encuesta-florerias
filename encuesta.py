@@ -11,14 +11,22 @@ from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime
 
 # Función para conectar y enviar datos
+import json
+
 def enviar_datos(fila):
     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-    # El archivo debe llamarse exactamente credentials.json y estar en la misma carpeta
-    creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
-    client = gspread.authorize(creds)
     
-    # CAMBIA ESTO por el nombre de tu archivo en Google Sheets
-    hoja = client.open("Encuesta_Florerias").sheet1
+    # Intentar leer desde Secrets (Nube) o desde archivo local (Spyder)
+    if "google_sheets" in st.secrets:
+        # Esto es para cuando la app ya está en la nube
+        creds_dict = json.loads(st.secrets["google_sheets"]["credentials"])
+        creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
+    else:
+        # Esto es para cuando haces pruebas locales en Spyder
+        creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
+        
+    client = gspread.authorize(creds)
+    hoja = client.open("Encuesta_Bioetanol").sheet1
     hoja.append_row(fila)
 
 # --- INTERFAZ DE USUARIO CON STREAMLIT ---
