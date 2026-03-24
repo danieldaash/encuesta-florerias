@@ -10,24 +10,32 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime
 
+
 # Función para conectar y enviar datos
 import json
 
 def enviar_datos(fila):
     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
     
-    # Intentar leer desde Secrets (Nube) o desde archivo local (Spyder)
-    if "google_sheets" in st.secrets:
-        # Esto es para cuando la app ya está en la nube
-        creds_dict = json.loads(st.secrets["google_sheets"]["credentials"])
-        creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
-    else:
-        # Esto es para cuando haces pruebas locales en Spyder
-        creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
-        
-    client = gspread.authorize(creds)
-    hoja = client.open("Encuesta_Bioetanol").sheet1
-    hoja.append_row(fila)
+    try:
+        if "google_sheets" in st.secrets:
+            # Cargamos el string de los secrets
+            raw_creds = st.secrets["google_sheets"]["credentials"]
+            # Lo convertimos a diccionario de Python
+            creds_dict = json.loads(raw_creds)
+            # Usamos el diccionario para autenticar
+            creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
+        else:
+            # Para pruebas locales en Spyder
+            creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
+            
+        client = gspread.authorize(creds)
+        hoja = client.open("Encuesta_Bioetanol").sheet1
+        hoja.append_row(fila)
+        return True
+    except Exception as e:
+        st.error(f"Error técnico: {e}")
+        return False
 
 # --- INTERFAZ DE USUARIO CON STREAMLIT ---
 st.set_page_config(page_title="Registro de Encuestas", page_icon="📊")
