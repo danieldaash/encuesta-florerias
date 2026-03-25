@@ -72,7 +72,7 @@ with st.form("form_encuesta", clear_on_submit=True):
         bet = st.selectbox("¿Sabes qué es el bioetanol?", ["Si", "No"])
         if bet == "No":
             st.info("💡 **Dato rápido:** El bioetanol es un alcohol que se obtiene de plantas (como los tallos de las flores) y sirve como combustible ecológico.")
-    compraria = st.radio("Sabiendo esto, ¿lo comprarías?", ["Sí", "No", "Tal vez"]) 
+
    
 
     
