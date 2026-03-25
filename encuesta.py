@@ -67,19 +67,14 @@ with st.form("form_encuesta", clear_on_submit=True):
         puno = st.selectbox("¿Con qué frecuencia compras flores?", ["Semanalmente", "Mensualmente", "Solo en fechas especiales", "Casi nunca"])
         pdos = st.selectbox("¿Qué sueles hacer con las flores cuando comienzan a marchitarse", ["Las tiro en la basura", "Las uso para composta", "Le doy otro uso"])
         ptres = st.selectbox("¿Qué flores de las siguiente lista prefieres comprar más?", ["Rosas", "Girasoles", "Gerbera", "Claveles", "Nube", "Gladiola", "Lirio"])
+    
     with col3:                   
         bet = st.selectbox("¿Sabes qué es el bioetanol?", ["Si", "No"])
- 
-if bet == "Sí":
-    st.success("¡Genial! Cuéntanos más:")
-    interes = st.slider("¿Qué tanto te interesa el uso de combustibles orgánicos?", 1, 5, 3)
-    
-elif bet == "No":
-    st.info("💡 **Dato rápido:** El bioetanol es un alcohol que se obtiene de plantas (como los tallos de las flores) y sirve como combustible ecológico.")
+        if bet == "No":
+            st.info("💡 **Dato rápido:** El bioetanol es un alcohol que se obtiene de plantas (como los tallos de las flores) y sirve como combustible ecológico.")
     compraria = st.radio("Sabiendo esto, ¿lo comprarías?", ["Sí", "No", "Tal vez"]) 
    
-    if st.button("Enviar respuestas"):
-     st.write("¡Gracias por participar!")
+
     
     comentarios = st.text_area("Observaciones adicionales")
     
@@ -90,7 +85,7 @@ elif bet == "No":
 if boton:
     if nombre and numcta > 0:
     
-        datos_a_enviar = [nombre, numcta, ubicacion, puno, pdos, ptres, bet, comentarios]
+        datos_a_enviar = [nombre, numcta, ubicacion, puno, pdos, ptres, bet, compraria, comentarios]
         
         try:
             enviar_datos(datos_a_enviar)
