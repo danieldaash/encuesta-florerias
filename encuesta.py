@@ -60,11 +60,11 @@ with st.form("form_encuesta", clear_on_submit=True):
     
     with col1:
         nombre = st.text_input("Nombre del Encuestador")
-        numcta = st.number_input("Numero de Cuenta", min_value=0.0, step=0.1)
+        numcta = st.number_input("Numero de Cuenta", min_value= 0, step= 1)
        
     
     with col2:
-        edad = st.number_input("Edad", min_value=0.0, step=0.1)
+        edad = st.number_input("Edad", min_value= 0, step= 1)
         ubicacion = st.selectbox("Ubicacion", ["Toluca", "Metepec", "Lerma", "Otro"])
 
     with col3:                   
@@ -78,11 +78,11 @@ if boton:
     if nombre and numcta > 0:
         # Creamos la fila con fecha y hora automática
         ahora = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        datos_a_enviar = [ahora, nombre, numcta, edad, ubicacion, comentarios]
+        datos_a_enviar = [nombre, numcta, edad, ubicacion, funcionar, comentarios]
         
         try:
             enviar_datos(datos_a_enviar)
-            st.success("✅ ¡Datos guardados! Revisa tu Google Sheet.")
+            st.success("✅ ¡Datos guardados! Gracias.")
             st.balloons() # Un pequeño efecto visual de éxito
         except Exception as e:
             st.error(f"❌ Error de conexión: {e}")
