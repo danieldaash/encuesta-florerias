@@ -41,7 +41,7 @@ def enviar_datos(fila):
 
         client = gspread.authorize(creds)
         # Asegúrate de que el nombre sea IDÉNTICO al de tu Google Sheet
-        hoja = client.open("Encuesta_Bioetanol").sheet1
+        hoja = client.open("Encuesta_Florerias").sheet1
         hoja.append_row(fila)
         return True
     except Exception as e:
