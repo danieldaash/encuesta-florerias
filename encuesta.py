@@ -18,23 +18,32 @@ def enviar_datos(fila):
     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
     
     try:
-        if "google_sheets" in st.secrets:
-            # Cargamos el string de los secrets
-            raw_creds = st.secrets["google_sheets"]["credentials"]
-            # Lo convertimos a diccionario de Python
-            creds_dict = json.loads(raw_creds)
-            # Usamos el diccionario para autenticar
+        # 1. Intentar leer desde los Secrets de la nube (Seguro)
+        if "private_key" in st.secrets:
+            creds_dict = {
+                "type": st.secrets["type"],
+                "project_id": st.secrets["project_id"],
+                "private_key_id": st.secrets["private_key_id"],
+                "private_key": st.secrets["private_key"].replace('\\n', '\n'),
+                "client_email": st.secrets["client_email"],
+                "client_id": st.secrets["client_id"],
+                "auth_uri": st.secrets["auth_uri"],
+                "token_uri": st.secrets["token_uri"],
+                "auth_provider_x509_cert_url": st.secrets["auth_provider_x509_cert_url"],
+                "client_x509_cert_url": st.secrets["client_x509_cert_url"]
+            }
             creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
+        
+        # 2. Si no hay secrets, buscar el archivo local (Solo para ti en Spyder)
         else:
-            # Para pruebas locales en Spyder
             creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
-            
+
         client = gspread.authorize(creds)
         hoja = client.open("Encuesta_Bioetanol").sheet1
         hoja.append_row(fila)
         return True
     except Exception as e:
-        st.error(f"Error técnico: {e}")
+        st.error(f"Error: {e}")
         return False
 
 # --- INTERFAZ DE USUARIO CON STREAMLIT ---
