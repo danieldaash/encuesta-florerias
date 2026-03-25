@@ -78,10 +78,14 @@ elif bet == "No":
     st.info("💡 **Dato rápido:** El bioetanol es un alcohol que se obtiene de plantas (como los tallos de las flores) y sirve como combustible ecológico.")
     compraria = st.radio("Sabiendo esto, ¿lo comprarías?", ["Sí", "No", "Tal vez"]) 
    
- 
+    if st.button("Enviar respuestas"):
+     st.write("¡Gracias por participar!")
+    
     comentarios = st.text_area("Observaciones adicionales")
     
     boton = st.form_submit_button("Enviar a Google Sheets")
+
+
 
 if boton:
     if nombre and numcta > 0:
