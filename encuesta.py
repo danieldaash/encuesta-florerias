@@ -85,8 +85,7 @@ elif bet == "No":
 
 if boton:
     if nombre and numcta > 0:
-        # Creamos la fila con fecha y hora automática
-        ahora = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
         datos_a_enviar = [nombre, numcta, ubicacion, puno, pdos, ptres, bet, comentarios]
         
         try:
