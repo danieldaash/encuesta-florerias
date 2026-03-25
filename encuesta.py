@@ -21,18 +21,19 @@ def enviar_datos(fila):
         # Si estamos en la nube (Streamlit Cloud), los secretos ya son un diccionario
         if "private_key" in st.secrets:
             creds_dict = {
-                "type": st.secrets["service_account"],
-                "project_id": st.secrets["pelagic-pager-491203-g4"],
-                "private_key_id": st.secrets["b95be01d39a82f89dc8124412ed0680485a1a6e7"],
-                # Reparamos los saltos de línea de la llave
-                "private_key": st.secrets["-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCiZf+7Q5nhFJqL\nnGgSnmBg3Oj4F5lvS0z/WIndr5sBVWxCFrdbGyNS0/glr8Egh+7PNzl0SJGFvLRx\nJ6H0kZQuEmTMSJ60e8vV6rki7jPh4ynM1KuylabvPtGoUTVOhBMJN2UKYef0B3U4\nYK9UmpAWNCVbrv9cAjP5FNle9Ab1cM4D5bz64YP4ga2XFYYxJGc0NNG/ZVTtpu7T\n1wXEfx/KXo7wZq6zqCDm3CzgDWe4294CPZVAM/Ln7qf6xKwgVbXR3OfTawttHQ6G\n6qL77weuP7MsOlxLdGtpWfHFN9uSDBXsb7Lcpfs8Chql5PSN3YfX6F1aAJcTv6lG\n1kv3XpfzAgMBAAECggEAJeSe81cmxLpGBWWNcyq5WmCxi5IWHz32zW4fXTboeDsy\nc4lRZ1TBvUXwlPqZmbmeI4PDSDrWmdoaUHzq8WI2rTllg7U+Mubf/R4z7M6gFIko\n676EAbuhpBmIWjn4skVnG7NtRCrsMKi81VbaEmeuT0ADp40B0LpC3k/bGKjgJsy4\nXU5xyL/D26z5oi95ZhuusXJ48jA5kjzyZHIGVC9tbecRi+ZEc4zE1mn2c+jddlLd\nem3Il+Te2XOKRKtAkpGs+Tb1nIKMHEc9fyw9qyYxB2sKUbykFlt0KXwS2texi+Oq\nYCiyOlVDT1lVhR6wTS/Y74Pmk1TWTrFzgIGsynMMwQKBgQDNmR4JqAQKpipyNmGo\nIIP7HreoaOqp0pWeMBvTwK+4gThU0904I9q3kCGVDWxzFBJrQlv+uw82RNBO0vPd\nRNWUk+PBME+AdhOqc98LXCZgKm5/Id+4PFJE4byrqwxuaPVgjkE18JrX2N81R9sj\n3nFGefMuZZnT4fxi5T+3wSYsmwKBgQDKNcPmGGFhjyEalHJRSDAclG503HPovM7x\nqZ3z+FR/xaAb7ap4Vt0B5PqHQGSILVG4tE8WyxhvyqdcCAy4IF4v7PLxaQxDzYfJ\nnfb0HEVFDVu4jCVf6E1u99cw9cQYhq7PjayKIUmnftADMRpDqbp/69auIWkUKSDr\naZqkWQs7iQKBgEpCTrYgKG2MPPKJr9YhAGqYWq+KTY/PDtlW+QYPp6hVi/ofl9xq\nHtqERYznj081Zb219zJXcBQi4LZHvWsjLJ2AmRezElQM0eeT+HDK9NVxHf3vRzXt\nG63jdtjubAwI/u/EEcugvtzNaTl+Xalj87gH3gzZB6mfCyDROqVtLxOXAoGAThxe\nxC9+zpTfkMjvL/7WtvOPh4zxKWJl/mwrG+c9nO3WX3N7emjzjpvJOx3gt8np25Or\nSX7CvcxmweJKJ4Y5XAIIBsExf6+RWIywrLOO/pGecLeSaG3wG4GZmswVJ/Q+6uYr\nVGBvd0hBSjpZjvGtnWSY1UMKuEL6+HUey4WqFSECgYEAgYZNpbBj96YOCtxzgOcQ\nAdXyUvPKe+GHXwtIppWZTkHi66SXS1q01+gFTnpXypG7PsLgh9mtexdqpJARkwPM\nJrQ8bdkQ7B+B1/N/+jDUahGog01afQZKPPqCTGLnHCsZfS9ssOHOpVFpM+7163N4\nnclqOmlFCxPDc/JuiLZwVow=\n-----END PRIVATE KEY-----\n"].replace('\\n', '\n'),
-                "client_email": st.secrets["encuesta-estadistica@pelagic-pager-491203-g4.iam.gserviceaccount.com"],
-                "client_id": st.secrets["111353323689903883546"],
-                "auth_uri": st.secrets["https://accounts.google.com/o/oauth2/auth"],
-                "token_uri": st.secrets["https://oauth2.googleapis.com/token"],
-                "auth_provider_x509_cert_url": st.secrets["https://www.googleapis.com/oauth2/v1/certs"],
-                "client_x509_cert_url": st.secrets["https://www.googleapis.com/robot/v1/metadata/x509/encuesta-estadistica%40pelagic-pager-491203-g4.iam.gserviceaccount.com"]
-            }
+              
+    "type": st.secrets["type"],
+    "project_id": st.secrets["project_id"],
+    "private_key_id": st.secrets["private_key_id"],
+    "private_key": st.secrets["private_key"].replace('\\n', '\n'),
+    "client_email": st.secrets["client_email"],
+    "client_id": st.secrets["client_id"],
+    "auth_uri": st.secrets["auth_uri"],
+    "token_uri": st.secrets["token_uri"],
+    "auth_provider_x509_cert_url": st.secrets["auth_provider_x509_cert_url"],
+    "client_x509_cert_url": st.secrets["client_x509_cert_url"]
+}
+            
             creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
         
         # Si estás probando localmente en tu Acer Nitro (Spyder)
