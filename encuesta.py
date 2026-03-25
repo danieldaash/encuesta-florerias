@@ -12,18 +12,19 @@ from datetime import datetime
 
 
 # Función para conectar y enviar datos
-import json
+
 
 def enviar_datos(fila):
     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
     
     try:
-        # 1. Intentar leer desde los Secrets de la nube (Seguro)
+        # Si estamos en la nube (Streamlit Cloud), los secretos ya son un diccionario
         if "private_key" in st.secrets:
             creds_dict = {
                 "type": st.secrets["type"],
                 "project_id": st.secrets["project_id"],
                 "private_key_id": st.secrets["private_key_id"],
+                # Reparamos los saltos de línea de la llave
                 "private_key": st.secrets["private_key"].replace('\\n', '\n'),
                 "client_email": st.secrets["client_email"],
                 "client_id": st.secrets["client_id"],
@@ -34,16 +35,17 @@ def enviar_datos(fila):
             }
             creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
         
-        # 2. Si no hay secrets, buscar el archivo local (Solo para ti en Spyder)
+        # Si estás probando localmente en tu Acer Nitro (Spyder)
         else:
             creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
 
         client = gspread.authorize(creds)
+        # Asegúrate de que el nombre sea IDÉNTICO al de tu Google Sheet
         hoja = client.open("Encuesta_Bioetanol").sheet1
         hoja.append_row(fila)
         return True
     except Exception as e:
-        st.error(f"Error: {e}")
+        st.error(f"Error de conexión: {e}")
         return False
 
 # --- INTERFAZ DE USUARIO CON STREAMLIT ---
