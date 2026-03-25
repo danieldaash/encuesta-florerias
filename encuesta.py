@@ -52,23 +52,32 @@ def enviar_datos(fila):
 # --- INTERFAZ DE USUARIO CON STREAMLIT ---
 st.set_page_config(page_title="Registro de Encuestas", page_icon="📊")
 
-st.title("📋 Encuesta Desechos de Florerias")
-st.markdown("Use este formulario para registrarse.")
+st.title("📋 Residuos florales")
+st.markdown("Contestar cada pregunta que se indique")
 
 with st.form("form_encuesta", clear_on_submit=True):
     col1, col2, col3 = st.columns(3)
     
     with col1:
-        nombre = st.text_input("Nombre del Encuestador")
+        nombre = st.text_input("Nombre del alumno")
         numcta = st.number_input("Numero de Cuenta", min_value= 0, step= 1)
-       
+        ubicacion = st.selectbox("Municipio", ["Toluca", "Metepec", "Lerma", "Otro"])
     
     with col2:
-        edad = st.number_input("Edad", min_value= 0, step= 1)
-        ubicacion = st.selectbox("Ubicacion", ["Toluca", "Metepec", "Lerma", "Otro"])
-
+        puno = st.selectbox("¿Con qué frecuencia compras flores?", ["Semanalmente", "Mensualmente", "Solo en fechas especiales", "Casi nunca"])
+        pdos = st.selectbox("¿Qué sueles hacer con las flores cuando comienzan a marchitarse", ["Las tiro en la basura", "Las uso para composta", "Le doy otro uso"])
+        ptres = st.selectbox("¿Qué flores de las siguiente lista prefieres comprar más?", ["Rosas", "Girasoles", "Gerbera", "Claveles", "Nube", "Gladiola", "Lirio"])
     with col3:                   
-        funcionar = st.selectbox("Va a funcionar", ["Si", "No", "La neta no c"])
+        bet = st.selectbox("¿Sabes qué es el bioetanol?", ["Si", "No"])
+ 
+if bet == "Sí":
+    st.success("¡Genial! Cuéntanos más:")
+    interes = st.slider("¿Qué tanto te interesa el uso de combustibles orgánicos?", 1, 5, 3)
+    
+elif bet == "No":
+    st.info("💡 **Dato rápido:** El bioetanol es un alcohol que se obtiene de plantas (como los tallos de las flores) y sirve como combustible ecológico.")
+    compraria = st.radio("Sabiendo esto, ¿lo comprarías?", ["Sí", "No", "Tal vez"]) 
+   
  
     comentarios = st.text_area("Observaciones adicionales")
     
@@ -78,7 +87,7 @@ if boton:
     if nombre and numcta > 0:
         # Creamos la fila con fecha y hora automática
         ahora = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        datos_a_enviar = [nombre, numcta, edad, ubicacion, funcionar, comentarios]
+        datos_a_enviar = [nombre, numcta, ubicacion, puno, pdos, ptres, bet, comentarios]
         
         try:
             enviar_datos(datos_a_enviar)
